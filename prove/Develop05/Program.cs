@@ -19,7 +19,7 @@ class Program
             else if (userChoice == "2")
             {
                 ReflectionActivity reflectingActivity = new ReflectionActivity();
-                reflectingActivity.RunReflectionActivity2();
+                reflectingActivity.RunReflectionActivity();
                 Console.WriteLine("");
             }
             else if (userChoice == "3")
