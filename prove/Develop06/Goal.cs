@@ -1,8 +1,10 @@
 public abstract class Goal
 {
+
     protected string _shortName;
     protected string _description;
     protected int _points;
+
     protected bool _isCompleted;
     protected Goal(string Name, string description, int points)
     {

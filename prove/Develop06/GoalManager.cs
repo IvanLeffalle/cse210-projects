@@ -32,13 +32,16 @@ public class GoalManager
             Console.WriteLine($"{count}. {goal.GetStringRepresentation()}");
             count++;
         }
-
         Console.Write("Which goal did you accomplish? ");
         int choice = int.Parse(Console.ReadLine()) - 1;
 
         if (_goals[choice].isCompleted())
         {
             Console.WriteLine("You have already completed this goal.");
+        }
+        else if (_goals[choice] is SimpleGoal simpleGoal && simpleGoal.isMissed() == "missed")
+        {
+            Console.WriteLine("This goal is missed and cannot be completed.");
         }
         else
         {
@@ -74,6 +77,7 @@ public class GoalManager
         }
         Console.WriteLine("Goals saved successfully.");
     }
+
     public void LoadGoals(string filename)
     {
         _goals.Clear();
@@ -101,7 +105,8 @@ public class GoalManager
 
                     if (goalType == "SimpleGoal")
                     {
-                        var simpleGoal = new SimpleGoal(name, description, points);
+                        DateTime targetDate = DateTime.Parse(parts[5]);
+                        var simpleGoal = new SimpleGoal(name, description, points, targetDate);
                         simpleGoal.SetCompleted(isCompleted);
                         _goals.Add(simpleGoal);
                     }
@@ -112,14 +117,13 @@ public class GoalManager
                     }
                     else if (goalType == "ChecklistGoal")
                     {
-                        int ammountCompleted = int.Parse(parts[5]);
+                        int amountCompleted = int.Parse(parts[5]);
                         int target = int.Parse(parts[6]);
                         int bonus = int.Parse(parts[7]);
 
-
                         var checklistGoal = new ChecklistGoal(name, description, points, target, bonus);
                         checklistGoal.SetCompleted(isCompleted);
-                        checklistGoal.SetCurrentCount(ammountCompleted);
+                        checklistGoal.SetCurrentCount(amountCompleted);
                         _goals.Add(checklistGoal);
                     }
                 }
@@ -131,6 +135,7 @@ public class GoalManager
             Console.WriteLine("File not found.");
         }
     }
+
     public void AddGoal(Goal goal)
     {
         _goals.Add(goal);
@@ -202,7 +207,9 @@ public class GoalManager
         int points = int.Parse(Console.ReadLine());
         if (goalType == "1")
         {
-            AddGoal(new SimpleGoal(name, description, points));
+            Console.WriteLine("Enter the target date for the goal (yyyy-MM-dd): ");
+            DateTime targetDate = DateTime.Parse(Console.ReadLine());
+            AddGoal(new SimpleGoal(name, description, points, targetDate));
         }
         else if (goalType == "2")
         {
