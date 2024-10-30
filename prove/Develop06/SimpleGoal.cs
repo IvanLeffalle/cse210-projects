@@ -1,6 +1,5 @@
 public class SimpleGoal : Goal
 {
-
     private DateTime _targetDate;
     private DateTime _today;
     public SimpleGoal(string Name, string description, int points, DateTime targetDate) : base(Name, description, points)
@@ -9,7 +8,6 @@ public class SimpleGoal : Goal
         _targetDate = targetDate;
         _today = DateTime.Now.Date;
     }
-
     public string isMissed()
     {
         if (_today > _targetDate)
@@ -26,7 +24,6 @@ public class SimpleGoal : Goal
     {
         return _isCompleted;
     }
-
     public override void RecordEvent()
     {
         if (isMissed() == "missed")
